@@ -1,0 +1,12 @@
+.gitignore
+AUTHORS
+LICENSE
+README.md
+setup.py
+gym_multi_car_racing/__init__.py
+gym_multi_car_racing/multi_car_racing.py
+gym_multi_car_racing.egg-info/PKG-INFO
+gym_multi_car_racing.egg-info/SOURCES.txt
+gym_multi_car_racing.egg-info/dependency_links.txt
+gym_multi_car_racing.egg-info/requires.txt
+gym_multi_car_racing.egg-info/top_level.txt
