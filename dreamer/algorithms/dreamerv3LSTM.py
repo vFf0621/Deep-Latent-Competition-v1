@@ -209,10 +209,10 @@ class DreamerV3:
 
     def latent_imagination(self, states, metrics):
         state = states.reshape(-1, self.config.stochastic_size)
-    
-        indx = random.choices(list(range(state.shape[0])),k=100)
+        size = self.config.batch_size*2
+        indx = random.choices(list(range(state.shape[0])),k=size)
         state = state[indx]
-        deterministic = self.rssm.recurrent_model.input_init(100)
+        deterministic = self.rssm.recurrent_model.input_init(size)
 
         # continue_predictor reinit
         for t in range(self.config.horizon_length):
