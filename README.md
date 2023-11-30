@@ -31,9 +31,6 @@ To run the training process, use the following command:
 ```
 python main.py --config dmc-walker-walk
 ```
-### Plan2Explore
-```
-python main.py --config p2e-dmc-walker-walk
 ```
 <hr/>
 
