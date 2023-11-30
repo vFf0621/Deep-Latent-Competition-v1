@@ -33,6 +33,8 @@ class Actor(nn.Module):
                 activation=torch.tanh,
         )
         action = dist.rsample()
-        log_prob = dist.log_prob(action)
-        log_prob -= torch.log(1-action.pow(2)+0.00001)
-        return action, log_prob.sum(-1)
+        log_probs = dist.log_prob(action)
+        log_probs -= torch.log(1-torch.tanh(action).pow(2)+10e-8)
+        log_probs = log_probs.sum(-1).unsqueeze(-1)
+
+        return action, log_probs

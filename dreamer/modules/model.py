@@ -14,7 +14,7 @@ class RSSM(nn.Module):
         self.recurrent_model = RecurrentModel(action_size, config)
         self.transition_model = TransitionModel(config)
         self.representation_model = RepresentationModel(config)
-
+        self.transition_model_target = TransitionModel(config)
     def recurrent_model_input_init(self, batch_size):
         return self.transition_model.input_init(
             batch_size
@@ -38,8 +38,8 @@ class RecurrentModel(nn.Module):
         self.cur_cx = None
         self.cur_hx = None
         self.recurrent = nn.LSTMCell(self.config.hidden_size, self.deterministic_size)
-        self.hx = torch.zeros(self.deterministic_size).to(self.device)
-        self.cx = torch.zeros(self.deterministic_size).to(self.device)
+        self.hx = nn.Parameter(torch.rand(1, self.deterministic_size).to(self.device))
+        self.cx = nn.Parameter(torch.rand(1, self.deterministic_size).to(self.device))
 
     def forward(self, embedded_state, action):
         if action is None or embedded_state is None:
@@ -58,21 +58,18 @@ class RecurrentModel(nn.Module):
         self.cur_cx = None
         self.cur_hx = None
         if batch_size and self.prev_bs == 0:
-            self.hx = self.hx.repeat(batch_size, 1)
-            self.cx = torch.zeros_like(self.hx).to(self.hx.device)
-
+            self.hx = nn.Parameter(self.hx.repeat(batch_size, 1))
+            self.cx = nn.Parameter(self.cx.repeat(batch_size, 1))
             self.prev_bs = batch_size
             
         elif batch_size and self.prev_bs != 0:
-            self.hx = self.hx[0].repeat(batch_size,1 )
-            if batch_size == self.bs * (self.bl-1):
-                self.hx = self.hx.detach()
-            self.cx = torch.zeros_like(self.hx).to(self.hx.device)
+            self.hx = nn.Parameter(self.hx[0].repeat(batch_size, 1))
+            self.cx = nn.Parameter(self.cx[0].repeat(batch_size, 1))
 
             self.prev_bs = batch_size
         elif self.prev_bs > 0 and batch_size == 1:
-            self.hx = self.hx[0].detach()
-            self.cx = torch.zeros_like(self.hx).to(self.hx.device)
+            self.hx = nn.Parameter(self.hx[0])
+            self.cx = nn.Parameter(self.cx[0])
 
             self.prev_bs = 0
         return self.hx

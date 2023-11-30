@@ -35,10 +35,12 @@ def build_network(input_size, hidden_size, num_layers, activation, output_size):
     layers = []
     layers.append(nn.Linear(input_size, hidden_size))
     layers.append(activation)
+    layers.append(nn.LayerNorm(hidden_size))
 
     for i in range(num_layers - 2):
         layers.append(nn.Linear(hidden_size, hidden_size))
         layers.append(activation)
+        layers.append(nn.LayerNorm(hidden_size))
 
     layers.append(nn.Linear(hidden_size, output_size))
 
@@ -49,10 +51,10 @@ def build_network(input_size, hidden_size, num_layers, activation, output_size):
 
 def initialize_weights(m):
     if isinstance(m, (nn.Conv2d, nn.ConvTranspose2d)):
-        nn.init.kaiming_uniform_(m.weight.data, nonlinearity="relu")
+        nn.init.orthogonal(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
     elif isinstance(m, nn.Linear):
-        nn.init.kaiming_uniform_(m.weight.data)
+        nn.init.orthogonal(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
 
 
@@ -71,7 +73,8 @@ def create_normal_dist(
         if activation:
             mean = activation(mean)
         mean = mean_scale * mean
-        std = F.softplus(std + init_std) + min_std
+        std = init_std - F.softplus(init_std - std)
+        std = min_std + F.softplus(std - min_std)
     else:
         mean = x
     dist = torch.distributions.Normal(mean, std)
@@ -80,7 +83,7 @@ def create_normal_dist(
     return dist
 
 
-def compute_lambda_values(rewards, values, continues, horizon_length, device, log_probs, lambda_):
+def compute_lambda_values(rewards, values, continues, horizon_length, device, log_probs, lambda_, alpha = 1):
     """
     rewards : (batch_size, time_step, hidden_size)
     values : (batch_size, time_step, hidden_size)
@@ -90,16 +93,15 @@ def compute_lambda_values(rewards, values, continues, horizon_length, device, lo
     continues = continues[:, :-1]
     next_values = values[:, 1:]
     last = next_values[:, -1]
-    log_probs = log_probs[:, :-1].unsqueeze(-1)
+    log_probs = log_probs[:, :-1]
     inputs = rewards + continues * next_values * (1 - lambda_)
 
     outputs = []
     # single step
-    l = 0
     for index in reversed(range(horizon_length - 1)):
-        last = inputs[:, index] + continues[:, index] * lambda_ * last#-log_probs[:, index+1]
+        last = inputs[:, index] + continues[:, index] * lambda_ * (last-alpha*log_probs[:, index])
         outputs.append(last)
-    returns = torch.stack(list(reversed(outputs)), dim=1).to(device)
+    returns = torch.stack(list(reversed(outputs)), dim=-1).to(device)
     return returns
 
 
@@ -117,7 +119,8 @@ class DynamicInfos:
     def get_stacked(self, time_axis=1):
         copy = {key:self.data[key] for key in self.data}
         for key in copy:
-            copy[key] = torch.stack(copy[key], axis=time_axis).to(self.device)
+            if isinstance(copy[key][0], torch.Tensor):
+                copy[key] = torch.stack(copy[key], axis=time_axis).to(self.device)
         stacked_data = AttrDict(
             copy
         )

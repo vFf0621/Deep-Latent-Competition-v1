@@ -21,12 +21,17 @@ class Decoder(nn.Module):
             nn.Linear(
                 self.deterministic_size + self.stochastic_size, 4096,
             ),
+            nn.LeakyReLU(),
+            nn.LayerNorm(4096),
             nn.Unflatten(dim=1, unflattened_size=(-1, 8, 8)),
             
             nn.ConvTranspose2d(in_channels=64, out_channels=64, kernel_size=3, stride=1),
             nn.LeakyReLU(),
+            nn.BatchNorm2d(64),
             nn.ConvTranspose2d(in_channels=64, out_channels=32, kernel_size=4, stride=2),
             nn.LeakyReLU(),
+            nn.BatchNorm2d(32),
+
             nn.ConvTranspose2d(in_channels=32, out_channels=3, kernel_size=12, stride=4),
 
             

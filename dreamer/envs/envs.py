@@ -7,7 +7,7 @@ import gym_multi_car_racing
 
 
 def make_env(task_name, num_agents):
-    env = gym.make(task_name, num_agents=num_agents)
+    env = gym.make(task_name, num_agents)
     return env
 
 

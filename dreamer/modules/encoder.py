@@ -23,6 +23,7 @@ class Encoder(nn.Module):
                 self.config.stride,
             ),
             activation,
+            nn.BatchNorm2d(self.config.depth * 1),
             nn.Conv2d(
                 self.config.depth * 1,
                 self.config.depth * 2,
@@ -30,6 +31,8 @@ class Encoder(nn.Module):
                 self.config.stride,
             ),
             activation,
+            nn.BatchNorm2d(self.config.depth * 2),
+
             nn.Conv2d(
                 self.config.depth * 2,
                 self.config.depth * 4,
@@ -37,6 +40,8 @@ class Encoder(nn.Module):
                 self.config.stride,
             ),
             activation,
+            nn.BatchNorm2d(self.config.depth * 4),
+
             nn.Conv2d(
                 self.config.depth * 4,
                 self.config.depth * 8,
@@ -44,7 +49,10 @@ class Encoder(nn.Module):
                 self.config.stride,
             ),
             activation,
+            nn.BatchNorm2d(self.config.depth * 8),
+
         )
+        self.bn = nn.LayerNorm(512)
         self.fc = nn.Linear(4096, 512)
         self.network.apply(initialize_weights)
 
@@ -53,8 +61,12 @@ class Encoder(nn.Module):
             seq_len = x.shape[0]
             batch_size = x.shape[1]
             x = x.reshape(-1, *self.observation_shape)
+        else:
+            x = x.unsqueeze(0)
         y = self.network(x).view(-1)
         y = self.fc(y.reshape(-1, 4096)).squeeze(0)
+        y = nn.LeakyReLU()(y)
+        y = self.bn(y)
         if seq:
             y = y.reshape(seq_len, batch_size, -1)
         return y

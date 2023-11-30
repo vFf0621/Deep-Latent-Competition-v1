@@ -2,17 +2,18 @@
 
 import torch
 import numpy as np
-
+import wandb
 def simulate(agents, env, num_interaction_episodes, writer, train=True):
+    best_score = -9999
     for epi in range(num_interaction_episodes):
         act = []
         det = []
         for x in range(env.num_agents):
 
             posterior, deterministic = agents[x].rssm.recurrent_model_input_init(1)
-            action = torch.zeros(env.action_space.shape[0]).to(agents[0].device)
+            action = np.zeros(env.action_space.shape[0], dtype=np.float32)
             action[1] = 1
-            act.append(action.cpu().numpy())
+            act.append(action)
             det.append((posterior, deterministic))
         observation, _ = env.reset()
         for i in range(200):
@@ -27,7 +28,7 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
             torch.from_numpy(observation[x]).float().to(agents[0].device) )
             emb.append(embedded_observation)
 
-        score = 0
+        score = np.zeros(env.num_agents)
         score_lst = []
         done = np.zeros(env.num_agents)
         while not done.all():
@@ -58,7 +59,7 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
                 for j in range(env.num_agents):
                     if next_observation[j] is not None:
                         agents[j].buffer.add(
-                        observation[j], buffer_action[j], reward[j], next_observation[j], done[j]
+                        observation[j], act[j], reward[j], next_observation[j], done[j]
                           )
                         emb.append(agents[j].encoder(
                         torch.from_numpy(next_observation[j]).float().to(agents[0].device)))
@@ -66,16 +67,22 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
                         emb.append(None)
                     
 
-            score += reward[0]
+            score += reward
             
             observation = next_observation
             if done.all():
-                if train and epi > 20:
+                if train and epi > 1:
                     print(
-                            "training score", score, epi
+                            "training scores", score, epi
                         )
+                    for a in agents:
+                        a.save_state_dict()
+                        writer["episodic_return_" + str(a.agent_id+1)] = score[a.agent_id]
+                    wandb.log(writer)
+
+                    print(">>>Saving Parameters<<<")
                     for j in range(env.num_agents):
-                        agents[j].train(env)
+                        agents[j].train(dict())
                 else:
                     score_lst = np.append(score_lst, score)
                     break
