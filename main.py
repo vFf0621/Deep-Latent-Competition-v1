@@ -5,20 +5,17 @@ os.environ["MUJOCO_GL"] = "egl"
 import argparse
 from datetime import datetime
 import wandb
-from dreamerv3.algorithms.dreamerv3 import DreamerV3
-from dreamer.algorithms.dreamerv3LSTM import DreamerLSTM
+from dreamer.algorithms.dreamerv3LSTM import DreamerV3
 from dreamer.utils.utils import load_config, get_base_directory
-from dreamer.envs.envs import  make_env, get_env_infos
-from dreamer.envs.simulate import simulate
+from simulate import simulate
 import gymnasium as gym
 import gym_multi_car_racing
 
 def main(config_file1, config_file2):
-    config1 = load_config(config_file1)
-    config2 = load_config(config_file2)
-    env = gym.make("MultiCarRacing-v1", num_agents = 1)  
-    obs_shape=(3, 96, 96)
-    discrete_action_bool = False
+    config1 = load_config(config_file1+".yml")
+    config2 = load_config(config_file2+".yml")
+    env = gym.make("MultiCarRacing-v1", num_agents = 2)  
+    obs_shape=env.observation_space.shape
     action_size = 2
     config = config1
     log_dir = (
@@ -36,13 +33,21 @@ def main(config_file1, config_file2):
 
         agents = []
         for i in range(env.num_agents):
-            if i % 1 == 0:
-                agent = DreamerV3(i,obs_shape, discrete_action_bool, action_size, dict(), device, config2)
+            if i % 2 == 0:
+                if config2.algorithm == "dreamer-v3":
+                    agent = DreamerV3(i,obs_shape, action_size, dict(), device, config2, LSTM=0)
+                else:
+                    agent = DreamerV3(i,obs_shape, action_size, dict(), device, config2,LSTM=1)
+                if config2.parameters.load:
+                    agent.load_state_dict()
 
             else:
-                agent = DreamerLSTM(i,obs_shape, discrete_action_bool, action_size, dict(), device, config1)
-
-            #agent.load_state_dict()
+                if config1.algorithm == "dreamer-v3":
+                    agent = DreamerV3(i,obs_shape, action_size, dict(), device, config1, LSTM=0)
+                else:
+                    agent = DreamerV3(i,obs_shape, action_size, dict(), device, config1, LSTM=1)
+                if config1.parameters.load:
+                    agent.load_state_dict()
 
             agents.append(agent)
 
@@ -54,14 +59,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--agent1",
         type=str,
-        default="1.yml",
-        help="config file to run(default: dmc-walker-walk.yml)",
+        default="Dreamerv3LSTM",
+        help="Algorithm to run on odd number agents (Default=Dreamerv3LSTM)",
     )
     parser.add_argument(
         "--agent2",
         type=str,
-        default="2.yml",
-        help="config file to run(default: dmc-walker-walk.yml)",
+        default="Dreamerv3",
+        help="Algorithm to run on even number agents (Default=Dreamerv3)",
     )
     print()
     main(parser.parse_args().agent1, parser.parse_args().agent2)

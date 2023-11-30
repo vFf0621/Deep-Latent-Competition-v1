@@ -4,6 +4,7 @@ import numpy as np
 import wandb
 import random
 from dreamer.modules.model import RSSM, RewardModel, ContinueModel
+
 from dreamer.modules.encoder import Encoder
 from dreamer.modules.decoder import Decoder
 from dreamer.modules.actor import Actor
@@ -16,32 +17,30 @@ from dreamer.utils.utils import (
 from dreamer.utils.buffer import ReplayBuffer
 
 
-class DreamerLSTM:
+class DreamerV3:
     def __init__(self,
         agent_id,
         observation_shape,
-        discrete_action_bool,
         action_size,
         writer,
         device,
         config,
+        LSTM, 
     ):
         self.agent_id = agent_id
         self.device = device
         self.action_size = action_size
-        self.discrete_action_bool = discrete_action_bool
         self.encoder = Encoder(observation_shape, config).to(self.device)
         self.target_encoder = Encoder(observation_shape, config).to(self.device)
         self.hard_update(self.target_encoder, self.encoder)
         self.decoder = Decoder(observation_shape, config).to(self.device)
-        self.rssm = RSSM(action_size, config).to(self.device)
+        self.rssm = RSSM(action_size, config, LSTM).to(self.device)
         self.reward_predictor = RewardModel(config).to(self.device)
         self.hard_update(self.rssm.transition_model_target, self.rssm.transition_model)
         if config.parameters.dreamer.use_continue_flag:
             self.continue_predictor = ContinueModel(config).to(self.device)
-        self.actor = Actor(discrete_action_bool, action_size, config).to(self.device)
+        self.actor = Actor(action_size, config).to(self.device)
         self.critic = Critic(config).to(self.device)
-
         self.buffer = ReplayBuffer(observation_shape, action_size, self.device, config)
 
         self.config = config.parameters.dreamer

@@ -7,11 +7,14 @@ from dreamer.utils.utils import create_normal_dist, build_network, horizontal_fo
 
 
 class RSSM(nn.Module):
-    def __init__(self, action_size, config):
+    def __init__(self, action_size, config, lstm):
         super().__init__()
         self.config = config.parameters.dreamer.rssm
+        if not lstm:
+            self.recurrent_model = GRU(action_size, config)
+        else:
+            self.recurrent_model = LSTM(action_size, config)
 
-        self.recurrent_model = RecurrentModel(action_size, config)
         self.transition_model = TransitionModel(config)
         self.representation_model = RepresentationModel(config)
         self.transition_model_target = TransitionModel(config)
@@ -20,8 +23,56 @@ class RSSM(nn.Module):
             batch_size
         ), self.recurrent_model.input_init(batch_size)
 
+class GRU(nn.Module):
+    def __init__(self, action_size, config):
+        super().__init__()
+        self.bs = config.parameters.dreamer.batch_size
+        self.bl = config.parameters.dreamer.batch_length
+        self.config = config.parameters.dreamer.rssm.recurrent_model
+        self.device = config.operation.device
+        self.stochastic_size = config.parameters.dreamer.stochastic_size
+        self.deterministic_size = config.parameters.dreamer.deterministic_size
+        self.prev_bs = 0
+        self.activation = getattr(nn, self.config.activation)()
+        self.linear = nn.Linear(
+            self.stochastic_size + action_size, self.config.hidden_size
+        )
+        self.cur_hx = None
+        self.recurrent = nn.GRUCell(self.config.hidden_size, self.deterministic_size)
+        self.hx = torch.zeros(self.deterministic_size).to(self.device)
 
-class RecurrentModel(nn.Module):
+    def forward(self, embedded_state, action):
+        if action is None or embedded_state is None:
+            return
+        if not isinstance(action, torch.Tensor):
+            action = torch.from_numpy(action).to(self.hx.device)
+        x = torch.cat((embedded_state.squeeze(0), action.squeeze(0)),-1)
+        x = self.activation(self.linear(x)).squeeze(0)
+
+
+        if self.cur_hx is not None:
+            self.cur_hx = self.recurrent(x, self.cur_hx.squeeze(0))
+        else:
+            self.cur_hx = self.recurrent(x, self.hx.squeeze(0))
+        return self.cur_hx
+
+    def input_init(self, batch_size):
+        self.cur_hx = None
+        if batch_size and self.prev_bs == 0:
+            self.hx = torch.zeros_like(self.hx).repeat(batch_size, 1)
+            self.prev_bs = batch_size
+
+        elif batch_size and self.prev_bs != 0:
+            self.hx = torch.zeros_like(self.hx[0]).repeat(batch_size, 1)
+
+            self.prev_bs = batch_size
+        elif self.prev_bs > 0 and batch_size == 1:
+            self.hx = torch.zeros_like(self.hx[0])
+
+        return self.hx
+
+
+class LSTM(nn.Module):
     def __init__(self, action_size, config):
         super().__init__()
         self.bs = config.parameters.dreamer.batch_size

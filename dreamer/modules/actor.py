@@ -6,21 +6,19 @@ from dreamer.utils.utils import create_normal_dist, build_network
 
 
 class Actor(nn.Module):
-    def __init__(self, discrete_action_bool, action_size, config):
+    def __init__(self, action_size, config):
         super().__init__()
         self.config = config.parameters.dreamer.agent.actor
-        self.discrete_action_bool = discrete_action_bool
         self.stochastic_size = config.parameters.dreamer.stochastic_size
         self.deterministic_size = config.parameters.dreamer.deterministic_size
 
-        action_size = action_size if discrete_action_bool else 2 * action_size
 
         self.network = build_network(
             self.stochastic_size + self.deterministic_size,
             self.config.hidden_size,
             self.config.num_layers,
             self.config.activation,
-            action_size,
+            action_size*2,
         )
 
     def forward(self, posterior, deterministic):
