@@ -1,8 +1,7 @@
 attrdict==2.0.1
-git+https://github.com/denisyarats/dmc2gym.git
-gym==0.25.2
-numpy==1.21.6
-PyYAML==6.0.1
+gymnasium
+numpy==1.21.6PyYAML==6.0.1
 torch==2.0.1
-tensorboard==2.8.0
+wandb
 protobuf==3.20.1
+shapely
