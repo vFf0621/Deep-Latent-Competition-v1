@@ -80,7 +80,6 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
                         writer["episodic_return_" + str(a.agent_id+1)] = score[a.agent_id]
                     wandb.log(writer)
 
-                    print(">>>Saving Parameters<<<")
                     for j in range(env.num_agents):
                         agents[j].train(dict())
                 else:
