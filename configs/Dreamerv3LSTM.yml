@@ -27,6 +27,7 @@ parameters :
         free_nats : 3
         discount : 0.99
         lambda_ : 0.95
+        alpha : 1.o
         
         use_continue_flag : True
         actor_learning_rate : 0.0001
