@@ -51,10 +51,10 @@ def build_network(input_size, hidden_size, num_layers, activation, output_size):
 
 def initialize_weights(m):
     if isinstance(m, (nn.Conv2d, nn.ConvTranspose2d)):
-        nn.init.orthogonal(m.weight.data)
+        nn.init.orthogonal_(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
     elif isinstance(m, nn.Linear):
-        nn.init.orthogonal(m.weight.data)
+        nn.init.orthogonal_(m.weight.data)
         nn.init.constant_(m.bias.data, 0)
 
 
