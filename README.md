@@ -16,4 +16,3 @@ To run the training process, use the following command:
 ```
 python main.py
 ```
-```
