@@ -7,7 +7,7 @@
 
 CUDA GPU(s)
 
-## Installation
+## Environment Installation
 
 To install the required dependencies, run the following command:
 
@@ -23,7 +23,7 @@ pip install -e .
 
 <hr/>
 
-## Run
+## Run Training Loop
 
 To run the training process, use the following command:
 ```
