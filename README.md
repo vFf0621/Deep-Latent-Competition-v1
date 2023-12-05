@@ -29,7 +29,8 @@ python main.py
 ```
 
 ## The original code bases can be found here: 
-
+'''
 https://github.com/igilitschenski/multi_car_racing/
-\\
+''''''
 https://github.com/kc-ml2/SimpleDreamer
+'''
