@@ -65,8 +65,7 @@ Overview of environment parameters:
 This environment contains the `CarRacing-v0` environment as a special case. It can be created via
 
 ```python
-env = gym.make("MultiCarRacing-v0", num_agents=1, use_random_direction=False, 
-        backwards_flag=False)
+env = gym.make("MultiCarRacing-v1", num_agents=1, use_random_direction=False)
 ```
 
 **Deprecation Warning:**  We might further simplify the environment in the future. Our current thoughts on deprecation concern the following functionalities.
