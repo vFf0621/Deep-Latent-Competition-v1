@@ -58,7 +58,7 @@ env = gym.make("MultiCarRacing-v1", num_agents=2, direction='CCW',
 
 obs = env.reset()[0]
 done = np.zeros(env.num_agents)
-total_reward = 0
+total_reward = np.zeros(env.num_agents)
 
 while not done.all():
   # The actions have to be of the format (num_agents,3)
