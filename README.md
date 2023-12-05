@@ -3,7 +3,6 @@
 [![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?v=BzX7KlJQHd0)
 
 
-
 ## Installation
 
 To install the required dependencies, run the following command:
@@ -20,7 +19,7 @@ pip install -e .
 
 <hr/>
 
-## run
+## Run
 
 To run the training process, use the following command:
 
@@ -28,3 +27,8 @@ To run the training process, use the following command:
 ```
 python main.py
 ```
+
+## The original code bases can be found here: 
+
+https://github.com/igilitschenski/multi_car_racing/
+https://github.com/kc-ml2/SimpleDreamer
