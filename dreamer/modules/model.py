@@ -5,6 +5,17 @@ from torch.distributions import Normal
 
 from dreamer.utils.utils import create_normal_dist, build_network, horizontal_forward
 
+'''
+Here is the Recurrent State Space Machine which contains a GRU or LSTM to hold
+the recurrence of the model and it has a transition, representation model that is the basis
+for the state space that the model lives in. 
+
+Our contribution includes adding the LSTM as an option in the RSSM
+
+The continue model is the termination predictor
+
+'''
+
 
 class RSSM(nn.Module):
     def __init__(self, action_size, config, lstm):

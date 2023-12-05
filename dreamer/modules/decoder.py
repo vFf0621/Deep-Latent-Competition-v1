@@ -6,6 +6,18 @@ from dreamer.utils.utils import (
     create_normal_dist,
 )
 
+'''
+
+The decoder model takes the state and the new action and uses it to reconstruct
+the scene. It is a convolution transpose model. 
+
+Our contribution here was adding normalization layers and leakyReLU layers.
+The normalization layers are there to stabilize the training of the model.
+The leakyReLU layer ensures that we do not have to deal with the vanishing gradient
+problem during training, the activation function is also there to learn features of the 
+environment that are encoded with negative numbers. 
+
+'''
 
 class Decoder(nn.Module):
     def __init__(self, observation_shape, config):

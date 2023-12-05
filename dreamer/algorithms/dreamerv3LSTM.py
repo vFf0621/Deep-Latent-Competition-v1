@@ -16,6 +16,23 @@ from dreamer.utils.utils import (
 )
 from dreamer.utils.buffer import ReplayBuffer
 
+'''
+Contributions:
+
+soft_update: The soft update uses a target and incrementally updates the weights towards the 
+target weights slowly. The updated weights are treated as a convex hull of the target and the source.
+
+hard_update: The hard update will replace all of the weights with the target weights
+
+_model_update: Added KL divergence in the model update 
+
+agent_update: Updates the actor and the critic model, we backpropagate using policy gradient method REINFORCE
+
+latent_imagination: Takes the current state (both a determinisitc state and a stochastic state)
+then uses it to imagine trajectories of horizon length found in the config file 
+without interaction in the world using the RSSM world model (used for exploration)
+
+'''
 
 class DreamerV3:
     def __init__(self,

@@ -3,6 +3,13 @@
 import torch
 import numpy as np
 import wandb
+
+'''
+Runs the simulation
+
+'''
+
+
 def simulate(agents, env, num_interaction_episodes, writer, train=True):
     best_score = -9999
     for epi in range(num_interaction_episodes):

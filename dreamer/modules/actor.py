@@ -4,6 +4,12 @@ from torch.distributions import TanhTransform
 
 from dreamer.utils.utils import create_normal_dist, build_network
 
+'''
+
+A actor model that has entropy regularization to stabilize its learning
+
+'''
+
 
 class Actor(nn.Module):
     def __init__(self, action_size, config):

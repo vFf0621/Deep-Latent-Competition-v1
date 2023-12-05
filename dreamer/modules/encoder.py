@@ -6,6 +6,15 @@ from dreamer.utils.utils import (
     horizontal_forward,
 )
 
+'''
+
+The encoder is used to encode the observations into a latent space 
+then fed into the representation model. It is a CNN model.
+
+Our contribution was the addition of batch normalization layers to 
+ensure stability in training.
+
+'''
 
 class Encoder(nn.Module):
     def __init__(self, observation_shape, config):
