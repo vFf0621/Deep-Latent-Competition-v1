@@ -30,7 +30,7 @@ agent_update: Updates the actor and the critic model, we backpropagate using pol
 
 latent_imagination: Takes the current state (both a determinisitc state and a stochastic state)
 then uses it to imagine trajectories of horizon length found in the config file 
-without interaction in the world using the RSSM world model (used for exploration)
+without interaction in the world using the RSSM world model.
 
 '''
 
