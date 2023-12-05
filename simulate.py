@@ -23,6 +23,7 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
             act.append(action)
             det.append((posterior, deterministic))
         observation, _ = env.reset()
+        # Skips the initial animation
         for i in range(200):
             _, _, _, _, _, = env.step(None)
 
