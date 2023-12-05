@@ -14,7 +14,7 @@ the scene. It is a convolution transpose model.
 The dimensions are hard coded so that it correctly resembles the input dim; the one 
 provided in the SimpleDreamer code does not give a correct dimension.
 
-Our contribution here was adding normalization layers and LeakyReLU Activation.
+Our contribution here was adding normalization layers and LeakyReLU activation.
 The normalization layers are there to stabilize the training of the model.
 The LeakyReLU layer ensures that we do not have to deal with the vanishing gradient
 problem during training, the activation function is also there to learn features of the 
