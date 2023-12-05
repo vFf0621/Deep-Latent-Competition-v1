@@ -246,21 +246,21 @@ class DreamerV3:
     def save_state_dict(self):
         self.rssm.recurrent_model.input_init(1)
         id = self.agent_id + 1
-        torch.save(self.rssm.state_dict(), 'RSSM'+str(id))
-        torch.save(self.encoder.state_dict(), 'ENCODER'+str(id))        
-        torch.save(self.actor.state_dict(), 'ACTOR'+str(id))        
-        torch.save(self.critic.state_dict(), 'CRITIC'+str(id))        
-        torch.save(self.reward_predictor.state_dict(), 'REWARD'+str(id))        
-        torch.save(self.continue_predictor.state_dict(), 'CONTINUE'+str(id))   
+        torch.save(self.rssm.state_dict(), 'pretrained_parameters/RSSM'+str(id))
+        torch.save(self.encoder.state_dict(), 'pretrained_parameters/ENCODER'+str(id))        
+        torch.save(self.actor.state_dict(), 'pretrained_parameters/ACTOR'+str(id))        
+        torch.save(self.critic.state_dict(), 'pretrained_parameter/CRITIC'+str(id))        
+        torch.save(self.reward_predictor.state_dict(), 'pretrained_parameters/REWARD'+str(id))        
+        torch.save(self.continue_predictor.state_dict(), 'pretrained_parameters/CONTINUE'+str(id))   
 
     def load_state_dict(self):
         id = self.agent_id + 1
-        self.rssm.load_state_dict(torch.load('RSSM'+ str(id)) )
-        self.encoder.load_state_dict(torch.load('ENCODER'+ str(id)))
-        self.actor.load_state_dict(torch.load('ACTOR'+ str(id)))
-        self.critic.load_state_dict(torch.load('CRITIC'+ str(id)))
-        self.reward_predictor.load_state_dict(torch.load('REWARD'+ str(id)))
-        self.continue_predictor.load_state_dict(torch.load('CONTINUE'+ str(id)))
+        self.rssm.load_state_dict(torch.load('pretrained_parameters/RSSM'+ str(id)) )
+        self.encoder.load_state_dict(torch.load('pretrained_parameters/ENCODER'+ str(id)))
+        self.actor.load_state_dict(torch.load('pretrained_parameters/ACTOR'+ str(id)))
+        self.critic.load_state_dict(torch.load('pretrained_parameters/CRITIC'+ str(id)))
+        self.reward_predictor.load_state_dict(torch.load('pretrained_parameters/REWARD'+ str(id)))
+        self.continue_predictor.load_state_dict(torch.load('pretrained_parameters/CONTINUE'+ str(id)))
     def _agent_update(self, behavior_learning_infos, metrics):
         predicted_rewards = self.reward_predictor(
             behavior_learning_infos.priors, behavior_learning_infos.deterministics
