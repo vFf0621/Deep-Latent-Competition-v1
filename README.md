@@ -5,8 +5,9 @@
 
 ## The zip files included are the trained parameters. Files ending with 1 correspond to Dreamerv3, and with 2 correspond to LSTM-Dreamerv3
 ## Set-up
-Go to main.py, replace "fguan06" with your Wandb username.
-
+-Go to main.py, replace "fguan06" with your Wandb username.
+-Install the requirements.
+-Install the environment.
 ## Hardware Requirement
 
 CUDA GPU(s)
