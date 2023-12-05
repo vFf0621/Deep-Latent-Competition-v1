@@ -7,7 +7,6 @@ This environment is a simple multi-player continuous contorl task. The state con
 ## Installation
 
 ```bash
-git clone https://github.com/igilitschenski/multi_car_racing.git
 cd multi_car_racing
 pip install -e .
 ```
