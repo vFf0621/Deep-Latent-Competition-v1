@@ -1,3 +1,0 @@
-pyglet
-shapely
-gymnasium[Box2d]
