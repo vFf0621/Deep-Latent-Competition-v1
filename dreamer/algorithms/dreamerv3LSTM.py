@@ -246,12 +246,12 @@ class DreamerV3:
     def save_state_dict(self):
         self.rssm.recurrent_model.input_init(1)
         id = self.agent_id + 1
-        torch.save(self.rssm.state_dict(), find_dir('pretrained_parameters')+'RSSM'+str(id))
-        torch.save(self.encoder.state_dict(), find_dir('pretrained_parameters')+'ENCODER'+str(id))        
-        torch.save(self.actor.state_dict(), find_dir('pretrained_parameters')+'ACTOR'+str(id))        
-        torch.save(self.critic.state_dict(), find_dir('pretrained_parameters')+'CRITIC'+str(id))        
-        torch.save(self.reward_predictor.state_dict(), find_dir('pretrained_parameters')+'REWARD'+str(id))        
-        torch.save(self.continue_predictor.state_dict(), find_dir('pretrained_parameters')+'CONTINUE'+str(id))   
+        torch.save(self.rssm.state_dict(), os.path.join(find_dir('pretrained_parameters'),'RSSM'+str(id)))
+        torch.save(self.encoder.state_dict(), os.path.join(find_dir('pretrained_parameters'),'ENCODER'+str(id)))   
+        torch.save(self.actor.state_dict(), os.path.join(find_dir('pretrained_parameters'),'ACTOR'+str(id)))        
+        torch.save(self.critic.state_dict(), os.path.join(find_dir('pretrained_parameters'),'CRITIC'+str(id)))        
+        torch.save(self.reward_predictor.state_dict(), os.path.join(find_dir('pretrained_parameters'),'REWARD'+str(id)))        
+        torch.save(self.continue_predictor.state_dict(), os.path.join(find_dir('pretrained_parameters'),'CONTINUE'+str(id)))   
 
     def load_state_dict(self):
         id = self.agent_id + 1
