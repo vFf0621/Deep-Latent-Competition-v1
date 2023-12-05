@@ -25,13 +25,6 @@ def main(config_file1, config_file2):
     obs_shape=env.observation_space.shape
     action_size = 2
     config = config1
-    log_dir = (
-        get_base_directory()
-        + "/runs/"
-        + datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        + "_"
-        + config.operation.log_dir
-    )
     project_name = 'multi_car ' + config.algorithm
 
     with wandb.init(project=project_name, entity='fguan06', config=dict(config), settings=wandb.Settings(start_method="thread")):
