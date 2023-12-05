@@ -37,14 +37,15 @@ total_reward = 0
 while not done.all():
   # The actions have to be of the format (num_agents,3)
   # The action format for each car is as in the CarRacing-v0 environment.
-  action = my_policy(obs)
+  for a in range(num_agents):
+       action.append(agents[a].policy(obs[a]))
 
   # Similarly, the structure of this is the same as in CarRacing-v0 with an
   # additional dimension for the different agents, i.e.
   # obs is of shape (num_agents, 3, 96, 96)
   # reward is of shape (num_agents,)
   # done is a bool and info is not used (an empty dict).
-  obs, reward, done, info = env.step(action)
+  obs, reward, done, truncated, info = env.step(action)
   total_reward += reward
   env.render()
 
