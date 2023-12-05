@@ -36,6 +36,10 @@ This repository contains `MultiCarRacing-v1` a multiplayer variant of Gym's orig
 
 This environment is a simple multi-player continuous contorl task. The state consists of 96x96 pixels for each player. The per-player reward is `-0.1` every timestep and `+1000/num_tiles * (num_agents-past_visitors)/num_agents` for each tile visited. For example, in a race with 2 agents, the first agent to visit a tile receives a reward of `+1000/num_tiles` and the second agent to visit the tile receives a reward of `+500/num_tiles` for that tile. Each agent can only be rewarded once for visiting a particular tile. The motivation behind this reward structure is to be sufficiently dense for simple learnability of the basic driving skill while incentivising competition.
 
+## Updates for v1
+
+For each agent, the episode terminates if the agent is on grass, receiving a -100 reward. Collisions are penalized by -0.05 reward per time step for both agents involved. Going backward will also result in termination for the individual agent and a penalty of -100. 
+
 
 ## Basic Usage
 After installation, the environment can be tried out by running:
