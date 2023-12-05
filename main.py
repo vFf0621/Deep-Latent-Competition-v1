@@ -66,13 +66,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--agent1",
         type=str,
-        default="Dreamerv3LSTM",
+        default="Dreamerv3",
         help="Algorithm to run on odd number agents (Default=Dreamerv3LSTM)",
     )
     parser.add_argument(
         "--agent2",
         type=str,
-        default="Dreamerv3",
+        default="Dreamerv3LSTM",
         help="Algorithm to run on even number agents (Default=Dreamerv3)",
     )
     print()
