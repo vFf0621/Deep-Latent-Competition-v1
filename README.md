@@ -38,7 +38,7 @@ This environment is a simple multi-player continuous contorl task. The state con
 
 ## Updates for v1
 
-For each agent, the episode terminates if the agent is on grass, receiving a -100 reward. Collisions are penalized by -0.05 reward per time step for both agents involved. Going backward will also result in termination for the individual agent and a penalty of -100. 
+For each agent, the episode terminates if the agent is on grass, receiving a -100 reward. Collisions are penalized by -0.05 reward per time step for both agents involved. Going backward will also result in termination for the individual agent and a penalty of -100. Throttle and brake have been merged into the same input channel for simplified control. View switching functionality is added so that, when the ego agent terminates, gets replaced by the subsequent agent and the view switches to that agent. 
 
 
 ## Basic Usage
