@@ -11,6 +11,17 @@ from simulate import simulate
 import gymnasium as gym
 import gym_multi_car_racing
 
+'''
+The main file initializes the multiCarRacing-v1 gym environment and uses the configuration
+from ../configs file to initialize the agents. The wandb is used to put the data into graphs. 
+
+The environment is found in the multi_car_racing folder
+
+One of the cars uses an LSTM (red car) as the recurrent model and the other car uses a GRU (blue car)
+
+'''
+
+
 def main(config_file1, config_file2):
     config1 = load_config(config_file1+".yml")
     config2 = load_config(config_file2+".yml")

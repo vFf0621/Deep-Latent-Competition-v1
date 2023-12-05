@@ -2,6 +2,12 @@ import torch
 import torch.nn as nn
 from dreamer.utils.utils import build_network, create_normal_dist, horizontal_forward
 
+'''
+
+The value function that is used to get the expected value of the
+actions and the policy
+
+'''
 
 class Critic(nn.Module):
     def __init__(self, config):

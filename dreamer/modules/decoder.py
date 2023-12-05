@@ -6,6 +6,24 @@ from dreamer.utils.utils import (
     create_normal_dist,
 )
 
+'''
+
+The decoder model takes the state and the new action and uses it to reconstruct
+the scene. It is a convolution transpose model. 
+
+The dimensions are hard coded so that it correctly resembles the input dim; the one 
+provided in the SimpleDreamer code does not give a correct dimension.
+
+Our contribution here was adding normalization layers and LeakyReLU activation.
+The normalization layers are there to stabilize the training of the model.
+The LeakyReLU layer ensures that we do not have to deal with the vanishing gradient
+problem during training, the activation function is also there to learn features of the 
+environment that are encoded with negative numbers. 
+
+Also, the standard deviation of the output is now a learned single parameter rather than
+the output of a layer, simiplifying the design.
+
+'''
 
 class Decoder(nn.Module):
     def __init__(self, observation_shape, config):
