@@ -1,6 +1,6 @@
 
 ## Click to play: 
-[![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/1.jpg)](https://www.youtube.com/watch?v=BzX7KlJQHd0)
+[![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?v=BzX7KlJQHd0)
 
 
 ## Hardware Requirement
