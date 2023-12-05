@@ -1,17 +1,8 @@
 
-
 import torch
 import numpy as np
 import wandb
-
-'''
-Runs the simulation
-
-'''
-
-
 def simulate(agents, env, num_interaction_episodes, writer, train=True):
-    best_score = -9999
     for epi in range(num_interaction_episodes):
         act = []
         det = []
@@ -23,7 +14,6 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
             act.append(action)
             det.append((posterior, deterministic))
         observation, _ = env.reset()
-        # Skips the initial animation
         for i in range(200):
             _, _, _, _, _, = env.step(None)
 
@@ -40,7 +30,6 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
         score_lst = []
         done = np.zeros(env.num_agents)
         while not done.all():
-            
             
             for i in range(env.num_agents):
                 if not done[i] and not det[i] is None:
@@ -86,7 +75,7 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
                     for a in agents:
                         a.save_state_dict()
                         writer["episodic_return_" + str(a.agent_id+1)] = score[a.agent_id]
-                    wandb.log(writer)
+                    wandb.log(step=epi, d=writer)
 
                     print(">>>Saving Parameters<<<")
                     for j in range(env.num_agents):
