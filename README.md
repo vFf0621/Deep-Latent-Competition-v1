@@ -3,6 +3,10 @@
 [![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?v=BzX7KlJQHd0)
 
 
+## Hardware Requirement
+
+CUDA GPU(s)
+
 ## Installation
 
 To install the required dependencies, run the following command:
