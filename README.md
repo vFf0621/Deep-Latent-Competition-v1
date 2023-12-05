@@ -32,7 +32,7 @@ python main.py
 
 # Multi-Car Racing Gym Environment
 <img width="100%" src="https://user-images.githubusercontent.com/11874191/98051650-5339d900-1e02-11eb-8b75-7f241d8687ef.gif"></img>
-This repository contains `MultiCarRacing-v0` a multiplayer variant of Gym's original [`CarRacing-v0` environment](https://gym.openai.com/envs/CarRacing-v0/).
+This repository contains `MultiCarRacing-v1` a multiplayer variant of Gym's original [`CarRacing-v0` environment](https://gym.openai.com/envs/CarRacing-v0/).
 
 This environment is a simple multi-player continuous contorl task. The state consists of 96x96 pixels for each player. The per-player reward is `-0.1` every timestep and `+1000/num_tiles * (num_agents-past_visitors)/num_agents` for each tile visited. For example, in a race with 2 agents, the first agent to visit a tile receives a reward of `+1000/num_tiles` and the second agent to visit the tile receives a reward of `+500/num_tiles` for that tile. Each agent can only be rewarded once for visiting a particular tile. The motivation behind this reward structure is to be sufficiently dense for simple learnability of the basic driving skill while incentivising competition.
 
@@ -58,7 +58,7 @@ Let's quickly walk through how this environment can be used in your code:
 import gym
 import gym_multi_car_racing
 
-env = gym.make("MultiCarRacing-v0", num_agents=2, direction='CCW',
+env = gym.make("MultiCarRacing-v1", num_agents=2, direction='CCW',
         use_random_direction=True, backwards_flag=True, h_ratio=0.25,
         use_ego_color=False)
 
@@ -68,11 +68,11 @@ total_reward = 0
 
 while not done.all():
   # The actions have to be of the format (num_agents,3)
-  # The action format for each car is as in the CarRacing-v0 environment.
+  # The action format for each car is as in the CarRacing-v1 environment.
   for a in range(num_agents):
        action.append(agents[a].policy(obs[a]))
 
-  # Similarly, the structure of this is the same as in CarRacing-v0 with an
+  # Similarly, the structure of this is the same as in CarRacing-v1 with an
   # additional dimension for the different agents, i.e.
   # obs is of shape (num_agents, 3, 96, 96)
   # reward is of shape (num_agents,)
@@ -95,7 +95,7 @@ Overview of environment parameters:
 | `h_ratio`              |`float`| Controls horizontal agent location in the state (Default: `0.25`) |
 | `use_ego_color`        |`bool` | In each view the ego vehicle has the same color if  activated (Default: `False`). |
 
-This environment contains the `CarRacing-v0` environment as a special case. It can be created via
+This environment contains the `CarRacing-v1` environment as a special case. It can be created via
 
 ```python
 env = gym.make("MultiCarRacing-v1", num_agents=1, use_random_direction=False)
