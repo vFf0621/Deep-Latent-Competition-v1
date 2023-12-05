@@ -30,6 +30,7 @@ python main.py
 
 ## The original code bases can be found here: 
 
-[Multi-car racing v0](https://github.com/igilitschenski/multi_car_racing)\
-https://github.com/kc-ml2/SimpleDreamer
+[Multi-Car-Racing-v0 Environment](https://github.com/igilitschenski/multi_car_racing)\
+\
+[Dreamer-v1 Source Code](https://github.com/kc-ml2/SimpleDreamer)
 
