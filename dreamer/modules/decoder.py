@@ -17,6 +17,9 @@ The LeakyReLU layer ensures that we do not have to deal with the vanishing gradi
 problem during training, the activation function is also there to learn features of the 
 environment that are encoded with negative numbers. 
 
+Also, the standard deviation of the output is now a learned single parameter rather than
+the output of a layer, simiplifying the design.
+
 '''
 
 class Decoder(nn.Module):
