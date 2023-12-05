@@ -11,6 +11,9 @@ from dreamer.utils.utils import (
 The decoder model takes the state and the new action and uses it to reconstruct
 the scene. It is a convolution transpose model. 
 
+The dimensions are hard coded so that it correctly resembles the input dim, which is
+not reflected in the original SimpleDreamer code.
+
 Our contribution here was adding normalization layers and LeakyReLU Activation.
 The normalization layers are there to stabilize the training of the model.
 The LeakyReLU layer ensures that we do not have to deal with the vanishing gradient
