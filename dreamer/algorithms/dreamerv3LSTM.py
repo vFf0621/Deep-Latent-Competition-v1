@@ -108,7 +108,6 @@ class DreamerV3:
                 )
                 posteriors, det = self.dynamic_learning(data, metrics)
                 self.latent_imagination(posteriors, metrics)
-        wandb.log(metrics)
 
     def dynamic_learning(self, data, metrics):
         prior, deterministic = self.rssm.recurrent_model_input_init(len(data.action))

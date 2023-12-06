@@ -75,11 +75,12 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
                     for a in agents:
                         a.save_state_dict()
                         writer["episodic_return_" + str(a.agent_id+1)] = score[a.agent_id]
-                    wandb.log(step=epi-5, data=writer)
 
                     print(">>>Saving Parameters<<<")
                     for j in range(env.num_agents):
-                        agents[j].train(dict())
+                        agents[j].train(writer)
+                    wandb.log(data=writer)
+
                 else:
                     score_lst = np.append(score_lst, score)
                     break
