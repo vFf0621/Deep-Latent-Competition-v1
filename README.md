@@ -1,9 +1,6 @@
 
 ## Click to play: 
-[![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?v=BzX7KlJQHd0)
-
-
-## The zip files included are the trained parameters. Files ending with 1 correspond to Dreamerv3, and with 2 correspond to LSTM-Dreamerv3
+[![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?)
 ## Set-up
 -Go to main.py, replace "fguan06" with your Wandb username.\
 -Install the requirements.\
