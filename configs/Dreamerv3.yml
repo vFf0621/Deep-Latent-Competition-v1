@@ -91,5 +91,5 @@ parameters :
 
             critic : 
                 hidden_size : 512
-                activation : ELU
+                activation : SiLU
                 num_layers : 3 
