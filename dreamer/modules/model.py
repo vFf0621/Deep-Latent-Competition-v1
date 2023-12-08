@@ -22,8 +22,10 @@ class RSSM(nn.Module):
         super().__init__()
         self.config = config.parameters.dreamer.rssm
         if not lstm:
+            print("GRU")
             self.recurrent_model = GRU(action_size, config)
         else:
+            print("LSTM")
             self.recurrent_model = LSTM(action_size, config)
 
         self.transition_model = TransitionModel(config)
@@ -154,7 +156,7 @@ class TransitionModel(nn.Module):
 
     def forward(self, x):
         x = self.network(x)
-        prior_dist = create_normal_dist(x, min_std=self.config.min_std)
+        prior_dist = create_normal_dist(x)
         prior = prior_dist.rsample()
         return prior_dist, prior
 
