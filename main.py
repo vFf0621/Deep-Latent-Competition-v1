@@ -33,7 +33,7 @@ def main(config_file1, config_file2):
 
         agents = []
         for i in range(env.num_agents):
-            if i % 2 == 0:
+            if i % 2 ==1:
                 if config2.algorithm == "dreamer-v3":
                     agent = DreamerV3(i,obs_shape, action_size, dict(), device, config2, LSTM=0)
                 else:
@@ -59,13 +59,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--agent1",
         type=str,
-        default="Dreamerv3",
+        default="Dreamerv3LSTM",
         help="Algorithm to run on odd number agents (Default=Dreamerv3LSTM)",
     )
     parser.add_argument(
         "--agent2",
         type=str,
-        default="Dreamerv3LSTM",
+        default="Dreamerv3",
         help="Algorithm to run on even number agents (Default=Dreamerv3)",
     )
     print()
