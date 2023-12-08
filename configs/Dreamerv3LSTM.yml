@@ -57,12 +57,11 @@ parameters :
         rssm :
             recurrent_model : 
                 hidden_size : 1024
-                activation : SiLU
-
+                activation : LeakyReLU
             transition_model : 
                 hidden_size : 1024
                 num_layers : 3
-                activation : SiLU
+                activation : LeakyReLU
                 min_std : 0.1
 
             representation_model:
