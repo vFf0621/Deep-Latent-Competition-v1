@@ -64,7 +64,7 @@ def create_normal_dist(
     mean_scale=1,
     init_std=1,
     min_std=0.1,
-    activation=None,
+    activation=torch.tanh,
     event_shape=None,
 ):
     if std == None:
