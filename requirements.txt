@@ -1,6 +1,7 @@
 attrdict==2.0.1
 gymnasium[all]
-numpy==1.21.6PyYAML==6.0.1
+numpy==1.21.6
+PyYAML==6.0.1
 torch==2.0.1
 wandb
 protobuf==3.20.1
