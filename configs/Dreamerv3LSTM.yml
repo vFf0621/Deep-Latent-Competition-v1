@@ -72,7 +72,7 @@ parameters :
             
         reward :
             hidden_size : 512
-            num_layers : 4
+            num_layers : 3
             activation : SiLU
 
         continue_ :
