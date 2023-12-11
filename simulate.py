@@ -74,7 +74,7 @@ def simulate(agents, env, num_interaction_episodes, writer, train=True):
                         )
                     for a in agents:
                         a.save_state_dict()
-                        writer["episodic_return_" + str(a.agent_id+1)] = score[a.agent_id]
+                        writer["episodic_return_" + str(a.agent_id+1)] = score[agents.index(a)]
 
                     print(">>>Saving Parameters<<<")
                     for j in range(env.num_agents):
