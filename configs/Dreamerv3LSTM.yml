@@ -12,7 +12,7 @@ environment :
     frame_skip : 4
     pixel_norm : True
 parameters :
-    load : True
+    load : False
     dreamer :
         train_iterations : 2
         horizon_length : 50
