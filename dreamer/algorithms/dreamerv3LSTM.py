@@ -93,6 +93,7 @@ class DreamerV3:
 
         self.writer = writer
         self.num_total_episode = 0
+        print("Agent " + str(self.agent_id)+ " Initiated!")
     def hard_update(self, target, original):
         target.load_state_dict(original.state_dict())
 
