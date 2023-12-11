@@ -22,10 +22,10 @@ class RSSM(nn.Module):
         super().__init__()
         self.config = config.parameters.dreamer.rssm
         if not lstm:
-            print("GRU")
+            print("Agent Recurrent Type: GRU")
             self.recurrent_model = GRU(action_size, config)
         else:
-            print("LSTM")
+            print("Agent Recurrent Type: LSTM")
             self.recurrent_model = LSTM(action_size, config)
 
         self.transition_model = TransitionModel(config)
