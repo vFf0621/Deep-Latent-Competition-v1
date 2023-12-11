@@ -51,7 +51,7 @@ def main(config_file1, config_file2):
 
             agents.append(agent)
             # Train each agent individually first
-            simulate([agents[i]], gym.make("MultiCarRacing-v1", num_agents = 1)  , {}, num_interaction_episodes=200)
+            simulate([agents[i]], gym.make("MultiCarRacing-v1", num_agents = 1)  ,writer=dict(), num_interaction_episodes=200)
 
         # Train interactions
         simulate(agents, env, writer=dict(),num_interaction_episodes=903)
