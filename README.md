@@ -1,6 +1,6 @@
 
 ## Click to play: 
-[![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?)
+[![Click to play](https://img.youtube.com/vi/BzX7KlJQHd0/0.jpg)](https://www.youtube.com/watch?v=BzX7KlJQHd0)
 ## Set-up
 -Go to main.py, replace "fguan06" with your Wandb username.\
 -Install the requirements.\
